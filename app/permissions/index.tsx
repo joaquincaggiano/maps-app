@@ -1,10 +1,13 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { ThemedText } from '@/components/ThemedText'
+import { View } from 'react-native'
+import { usePermissionsStore } from "@/store/usePermissions";
 
-const PermissionsScreen = () => {
+ const PermissionsScreen = () => {
+  const { locationStatus } = usePermissionsStore();
+
   return (
-    <View>
-      <Text>PermissionsScreen</Text>
+    <View className="flex-1 items-center justify-center">
+      <ThemedText>Estado actual: {locationStatus}</ThemedText>
     </View>
   )
 }
