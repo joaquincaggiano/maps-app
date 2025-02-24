@@ -1,5 +1,4 @@
-import { Pressable, PressableProps } from 'react-native'
-import { ThemedText } from './ThemedText'
+import { Pressable, PressableProps, Text } from 'react-native'
 
 interface Props extends PressableProps {
     children: string
@@ -8,7 +7,7 @@ interface Props extends PressableProps {
 const ThemedPressable = ({ children, ...props }: Props) => {
   return (
     <Pressable {...props} className="bg-black px-5 py-2 rounded-md m-2">
-        <ThemedText className="text-white">{children}</ThemedText>
+        <Text className="text-white">{children}</Text>
     </Pressable>
   )
 }
