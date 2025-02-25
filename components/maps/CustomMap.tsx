@@ -2,7 +2,7 @@ import { LatLng } from "@/interfaces/lat-lng";
 import { useLocationStore } from "@/store/useLocationStore";
 import { useEffect, useRef, useState } from "react";
 import { View, ViewProps } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Polyline, PROVIDER_GOOGLE } from "react-native-maps";
 import FAB from "../FAB";
 
 interface Props extends ViewProps {
@@ -17,9 +17,15 @@ const CustomMap = ({
 }: Props) => {
   const mapRef = useRef<MapView>(null);
   const [isFollowingUser, setIsFollowingUser] = useState(true);
+  const [isPolylineVisible, setIsPolylineVisible] = useState(false);
 
-  const { watchLocation, clearWatchLocation, lastKnownLocation, getLocation } =
-    useLocationStore();
+  const {
+    watchLocation,
+    clearWatchLocation,
+    lastKnownLocation,
+    getLocation,
+    userLocationList,
+  } = useLocationStore();
 
   useEffect(() => {
     watchLocation();
@@ -72,18 +78,32 @@ const CustomMap = ({
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+      >
+        {isPolylineVisible && (
+          <Polyline
+            coordinates={userLocationList}
+            strokeColor="#000"
+            strokeWidth={4}
+          />
+        )}
+      </MapView>
+
+      <FAB
+        onPress={() => setIsPolylineVisible(!isPolylineVisible)}
+        style={{ bottom: 140, right: 20 }}
+        icon={isPolylineVisible ? "eye-outline" : "eye-off-outline"}
+      />
+
+      <FAB
+        onPress={() => setIsFollowingUser(!isFollowingUser)}
+        style={{ bottom: 80, right: 20 }}
+        icon={isFollowingUser ? "walk-outline" : "accessibility-outline"}
       />
 
       <FAB
         onPress={moveToCurrentLocation}
-        style={{ bottom: 80, right: 20 }}
-        icon="location-outline"
-      />
-      
-      <FAB
-        onPress={() => setIsFollowingUser(!isFollowingUser)}
         style={{ bottom: 20, right: 20 }}
-        icon={isFollowingUser ? "walk-outline" : "accessibility-outline"}
+        icon="location-outline"
       />
     </View>
   );
