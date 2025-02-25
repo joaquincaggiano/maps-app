@@ -1,14 +1,26 @@
+import Loading from "@/components/Loading";
 import CustomMap from "@/components/maps/CustomMap";
+import { useLocationStore } from "@/store/useLocationStore";
+import { useEffect } from "react";
 import { View } from "react-native";
 
 const MapScreen = () => {
+  const { lastKnownLocation, getLocation } = useLocationStore();
+
+  useEffect(() => {
+    if (lastKnownLocation === null) {
+      getLocation();
+    }
+  }, []);
+
+  if (!lastKnownLocation) {
+    return <Loading />;
+  }
+
   return (
     <View>
       <CustomMap
-        initialLocation={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-        }}
+        initialLocation={lastKnownLocation}
       />
     </View>
   );
