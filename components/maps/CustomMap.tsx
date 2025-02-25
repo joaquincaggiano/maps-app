@@ -3,6 +3,7 @@ import { useLocationStore } from "@/store/useLocationStore";
 import { useEffect, useRef } from "react";
 import { View, ViewProps } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import FAB from "../FAB";
 
 interface Props extends ViewProps {
   showUserLocation?: boolean;
@@ -55,6 +56,8 @@ const CustomMap = ({
           longitudeDelta: 0.0421,
         }}
       />
+
+      <FAB onPress={() => {}} style={{ bottom: 20, right: 20 }} icon="location-outline" />
     </View>
   );
 };
